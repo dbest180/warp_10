@@ -21,12 +21,14 @@ This is a **static informational website** explaining Warp Speeds 1–10 from th
 - [x] User experience flow mapped
 - [x] PLAN.md created with comprehensive planning
 
-## Phase 1: File Structure & HTML ⏳
-- [ ] Folder structure created (`/star-trek-warp/`)
-- [ ] index.html skeleton built with semantic HTML5
-- [ ] Navigation (Warp 1–10) and content areas marked up
-- [ ] Hero banner placeholder added
-- [ ] CSS and JS files linked
+## Phase 1: File Structure & HTML ✅
+- [x] Folder structure created (`/star-trek-warp/`)
+- [x] index.html skeleton built with semantic HTML5
+- [x] Navigation (Warp 1–10) and content areas marked up
+- [x] Hero banner placeholder added
+- [x] CSS and JS files linked
+- [x] Meta tags for SEO and Open Graph included
+- [x] ARIA roles and accessibility attributes added
 
 ## Phase 2: CSS Theming ⏳
 - [ ] Color variables set (space-black, gold, red-alert, star-blue, panel-bg)
