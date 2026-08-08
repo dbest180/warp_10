@@ -14,6 +14,8 @@
   --text-primary: #f0f4ff;
   --text-secondary: #b8c4db;
   --glass-border: rgba(201, 169, 98, 0.3);
+  --anomaly-violet: #9d5cff;
+  --anomaly-violet-light: #c9a9ff;
   
   /* Spacing */
   --spacing-xs: 0.5rem;
@@ -429,6 +431,148 @@ footer p {
 }
 
 /* ============================================
+   Beyond Warp 10 (Bonus Section)
+   ============================================ */
+.nav-divider {
+  padding: 1rem 1.5rem 0.5rem;
+  margin-top: var(--spacing-sm);
+  border-top: 1px solid var(--glass-border);
+  list-style: none;
+}
+
+.nav-divider span {
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--anomaly-violet-light);
+  font-weight: 600;
+}
+
+.nav-link--beyond:hover {
+  color: var(--anomaly-violet-light);
+  background: rgba(157, 92, 255, 0.1);
+  border-left-color: rgba(157, 92, 255, 0.5);
+}
+
+.nav-link--beyond.active {
+  color: var(--anomaly-violet-light);
+  border-left-color: var(--anomaly-violet);
+  background: rgba(157, 92, 255, 0.15);
+}
+
+.beyond-wrapper {
+  animation: fadeIn 0.5s ease;
+}
+
+.beyond-intro {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: var(--spacing-lg);
+  max-width: 65ch;
+}
+
+.beyond-teaser-link {
+  display: inline-block;
+  margin-top: var(--spacing-lg);
+  color: var(--anomaly-violet-light);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid rgba(157, 92, 255, 0.4);
+  border-radius: 8px;
+  transition: all var(--transition-normal);
+}
+
+.beyond-teaser-link:hover {
+  background: rgba(157, 92, 255, 0.1);
+  border-color: var(--anomaly-violet);
+  box-shadow: 0 4px 15px rgba(157, 92, 255, 0.3);
+}
+
+.beyond-teaser-link:focus {
+  outline: 2px solid var(--anomaly-violet);
+  outline-offset: 2px;
+}
+
+.beyond-card {
+  border-color: rgba(157, 92, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.beyond-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(157, 92, 255, 0.5),
+    rgba(157, 92, 255, 0.5) 10px,
+    rgba(157, 92, 255, 0.1) 10px,
+    rgba(157, 92, 255, 0.1) 20px
+  );
+}
+
+.beyond-title {
+  font-size: 1.8rem;
+  color: var(--anomaly-violet-light);
+  text-shadow: 0 0 20px rgba(157, 92, 255, 0.5);
+}
+
+.classification-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(157, 92, 255, 0.15);
+  border: 1px solid var(--anomaly-violet);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--anomaly-violet-light);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.classification-badge--inline {
+  margin-top: 0.5rem;
+}
+
+.overview-card--beyond {
+  border-color: rgba(157, 92, 255, 0.2);
+}
+
+.overview-card--beyond:hover {
+  border-color: var(--anomaly-violet);
+  box-shadow: 0 8px 25px rgba(157, 92, 255, 0.3);
+}
+
+.overview-card--beyond h3 {
+  color: var(--anomaly-violet-light);
+  font-size: 1.3rem;
+}
+
+.beyond-back-link {
+  display: inline-block;
+  margin-top: var(--spacing-lg);
+  color: var(--anomaly-violet-light);
+  text-decoration: none;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  transition: all var(--transition-fast);
+}
+
+.beyond-back-link:hover {
+  text-shadow: 0 0 10px rgba(157, 92, 255, 0.5);
+}
+
+.beyond-back-link:focus {
+  outline: 2px solid var(--anomaly-violet);
+  outline-offset: 2px;
+}
+
+/* ============================================
    Responsive Design - Mobile First
    ============================================ */
 
@@ -498,6 +642,20 @@ footer p {
   .nav-link.active {
     border-left: none;
     border-bottom-color: var(--gold);
+  }
+  
+  .nav-link--beyond.active {
+    border-left: none;
+    border-bottom-color: var(--anomaly-violet);
+  }
+  
+  .nav-divider {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    margin-top: 0;
+    border-top: none;
+    border-left: 1px solid var(--glass-border);
   }
   
   main {
