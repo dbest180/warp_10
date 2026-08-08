@@ -1,3 +1,16 @@
+```
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+.mypy_cache/
+.pytest_cache/
+dist/
+build/
+target/
+.gradle/
+
 # Logs and temp files
 *.log
 *.tmp
@@ -12,17 +25,11 @@
 .vscode/
 .idea/
 
-# Dependencies
-node_modules/
-venv/
-.venv/
-__pycache__/
-.mypy_cache/
-.pytest_cache/
-target/
-.gradle/
+# System files
+.DS_Store
+Thumbs.db
 
-# Compiled and build artifacts
+# Compiled files
 *.pyc
 *.class
 *.o
@@ -32,12 +39,6 @@ target/
 *.a
 *.obj
 *.out
-dist/
-build/
-
-# System files
-.DS_Store
-Thumbs.db
 
 # Coverage
 coverage/
@@ -67,3 +68,4 @@ htmlcov/
 *.tar.bz2
 *.tar.xz
 *.tar.zst
+```
