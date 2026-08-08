@@ -80,6 +80,52 @@ const warpData = [
 ];
 
 // ============================================
+// Beyond Warp 10 Data (Speculative / Non-Standard Propulsion)
+// ============================================
+const beyondWarpData = [
+  {
+    id: 'transwarp',
+    designation: 'Transwarp Drive',
+    classification: 'FAILED EXPERIMENT',
+    origin: 'Starfleet R&D',
+    description: 'Starfleet\'s ambitious 23rd-century attempt to surpass the conventional warp scale entirely, installed aboard the experimental USS Excelsior. The project was quietly shelved after catastrophic instability during trials, though the underlying transwarp principles were never fully abandoned by Federation science.',
+    source: 'Star Trek III: The Search for Spock (transwarp test)'
+  },
+  {
+    id: 'borg-conduits',
+    designation: 'Borg Transwarp Conduits',
+    classification: 'HOSTILE TECHNOLOGY',
+    origin: 'Borg Collective',
+    description: 'A network of subspace tunnels engineered by the Borg Collective, permitting near-instantaneous travel across tens of thousands of light-years between fixed transwarp hubs. Voyager exploited this network on several occasions to shortcut years off its journey home, at considerable risk to the ship.',
+    source: '"Dark Frontier", "Endgame" (VOY)'
+  },
+  {
+    id: 'slipstream',
+    designation: 'Quantum Slipstream Drive',
+    classification: 'EXPERIMENTAL',
+    origin: 'USS Voyager / Species 116',
+    description: 'A propulsion system that generates a quantum field forming a tunnel through subspace, sustaining velocities far beyond standard warp. Reverse-engineered by Voyager\'s crew from Species 116 technology, a stable slipstream could theoretically cut decades off a journey home — if its extreme instability could ever be tamed.',
+    source: '"Timeless", "Hope and Fear" (VOY)'
+  },
+  {
+    id: 'coaxial',
+    designation: 'Coaxial Warp Drive',
+    classification: 'ALIEN TECHNOLOGY',
+    origin: 'Species 8472',
+    description: 'A radically alien propulsion method used by Species 8472 to traverse coaxial conduits between fluidic space and normal space-time, crossing distances that would take a Federation starship a lifetime to cover in a matter of moments.',
+    source: '"In the Flesh" (VOY)'
+  },
+  {
+    id: 'asymptotic-scale',
+    designation: 'Warp 9.9 \u2013 9.99',
+    classification: 'RECALIBRATED SCALE',
+    origin: 'Federation Starfleet (TNG-era)',
+    description: 'Under the TNG-era warp scale, Warp 10 represents an unreachable asymptote requiring infinite energy. Speeds between Warp 9.9 and 9.99 approach that limit so closely that even brief excursions place extreme stress on a starship\'s hull and warp field, authorized for emergency use only.',
+    source: 'Star Trek: The Next Generation Technical Manual'
+  }
+];
+
+// ============================================
 // Application State
 // ============================================
 const AppState = {
@@ -150,6 +196,65 @@ function renderOverviewGrid() {
     <section class="overview-grid" aria-label="All Warp Speeds Overview">
       ${cards}
     </section>
+    <a href="#beyond" class="beyond-teaser-link">&rarr; Beyond Warp 10: Experimental Propulsion</a>
+  `;
+}
+
+/**
+ * Render a single "Beyond Warp 10" detail card
+ * @param {Object} item - Beyond-warp data object
+ * @returns {string} HTML string
+ */
+function renderBeyondCard(item) {
+  return `
+    <article class="warp-card beyond-card" aria-label="${item.designation}">
+      <header class="warp-header">
+        <h2 class="warp-number beyond-title">${item.designation}</h2>
+        <span class="classification-badge">${item.classification}</span>
+      </header>
+
+      <p class="warp-description">${item.description}</p>
+
+      <div class="warp-details">
+        <div class="detail-item">
+          <div class="detail-label">Origin</div>
+          <div class="detail-value">${item.origin}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Classification</div>
+          <div class="detail-value">${item.classification}</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">Source Reference</div>
+          <div class="detail-value">${item.source}</div>
+        </div>
+      </div>
+
+      <a href="#beyond" class="beyond-back-link">&larr; Back to Beyond Warp 10</a>
+    </article>
+  `;
+}
+
+/**
+ * Render the "Beyond Warp 10" overview grid
+ * @returns {string} HTML string
+ */
+function renderBeyondOverviewGrid() {
+  const cards = beyondWarpData.map(item => `
+    <div class="overview-card overview-card--beyond" data-beyond-id="${item.id}" tabindex="0" role="button" aria-label="View ${item.designation} details">
+      <h3>${item.designation}</h3>
+      <span class="classification-badge classification-badge--inline">${item.classification}</span>
+      <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem;">${item.origin}</p>
+    </div>
+  `).join('');
+
+  return `
+    <div class="beyond-wrapper">
+      <p class="beyond-intro">Speculative and non-standard propulsion methods that push past the charted Warp 1&ndash;10 scale &mdash; some theoretical, some alien, some too dangerous for regular Starfleet use.</p>
+      <section class="overview-grid beyond-overview-grid" aria-label="Beyond Warp 10: Experimental Propulsion">
+        ${cards}
+      </section>
+    </div>
   `;
 }
 
@@ -173,12 +278,16 @@ function getEraFullName(era) {
 
 /**
  * Update active state in navigation
- * @param {number} warpNumber - Current warp number
+ * @param {number|string} activeKey - Current warp number (1-10), or 'beyond' for the Beyond Warp 10 section
  */
-function updateNavigation(warpNumber) {
+function updateNavigation(activeKey) {
   navLinks.forEach(link => {
-    const linkWarp = parseInt(link.dataset.warp);
-    if (linkWarp === warpNumber) {
+    const linkWarp = link.dataset.warp ? parseInt(link.dataset.warp) : null;
+    const isBeyondLink = Boolean(link.dataset.beyond);
+    const isActive = (linkWarp !== null && linkWarp === activeKey) ||
+                      (isBeyondLink && activeKey === 'beyond');
+
+    if (isActive) {
       link.classList.add('active');
       link.setAttribute('aria-current', 'page');
     } else {
@@ -190,10 +299,10 @@ function updateNavigation(warpNumber) {
 
 /**
  * Update URL hash
- * @param {number} warpNumber - Current warp number
+ * @param {number|string} value - Warp number (produces #warp-N), or a string hash segment (e.g. 'beyond', 'beyond-transwarp')
  */
-function updateHash(warpNumber) {
-  window.location.hash = `warp-${warpNumber}`;
+function updateHash(value) {
+  window.location.hash = typeof value === 'number' ? `warp-${value}` : value;
 }
 
 /**
@@ -284,6 +393,79 @@ function setupOverviewCards() {
 }
 
 /**
+ * Show the "Beyond Warp 10" overview grid
+ */
+function showBeyondOverview() {
+  AppState.isOverviewMode = true;
+  AppState.currentWarp = null;
+
+  contentArea.style.opacity = '0';
+
+  setTimeout(() => {
+    contentArea.innerHTML = renderBeyondOverviewGrid();
+    contentArea.style.transition = 'opacity 0.3s ease';
+    contentArea.style.opacity = '1';
+
+    updateNavigation('beyond');
+    updateHash('beyond');
+
+    setupBeyondOverviewCards();
+
+    announceChange('Beyond Warp 10: experimental propulsion methods displayed');
+  }, 200);
+}
+
+/**
+ * Select a single "Beyond Warp 10" entry and update the view
+ * @param {string} id - Beyond-warp entry id
+ */
+function selectBeyond(id) {
+  const item = beyondWarpData.find(entry => entry.id === id);
+
+  if (!item) {
+    showBeyondOverview();
+    return;
+  }
+
+  AppState.currentWarp = null;
+  AppState.isOverviewMode = false;
+
+  contentArea.style.opacity = '0';
+
+  setTimeout(() => {
+    contentArea.innerHTML = renderBeyondCard(item);
+    contentArea.style.transition = 'opacity 0.3s ease';
+    contentArea.style.opacity = '1';
+
+    updateNavigation('beyond');
+    updateHash(`beyond-${item.id}`);
+
+    announceChange(`${item.designation} displayed`);
+  }, 200);
+}
+
+/**
+ * Set up click handlers for "Beyond Warp 10" overview cards
+ */
+function setupBeyondOverviewCards() {
+  const cards = contentArea.querySelectorAll('.overview-card--beyond');
+
+  cards.forEach(card => {
+    const handleClick = () => {
+      selectBeyond(card.dataset.beyondId);
+    };
+
+    card.addEventListener('click', handleClick);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleClick();
+      }
+    });
+  });
+}
+
+/**
  * Handle hash change for browser back/forward buttons
  */
 function handleHashChange() {
@@ -295,6 +477,17 @@ function handleHashChange() {
     return;
   }
   
+  if (hash === 'beyond') {
+    showBeyondOverview();
+    return;
+  }
+
+  const beyondMatch = hash.match(/^beyond-(.+)$/);
+  if (beyondMatch) {
+    selectBeyond(beyondMatch[1]);
+    return;
+  }
+
   const match = hash.match(/warp-(\d+)/);
   if (match) {
     const warpNumber = parseInt(match[1]);
@@ -377,8 +570,12 @@ function initEventListeners() {
     const navLink = e.target.closest('.nav-link');
     if (navLink) {
       e.preventDefault();
-      const warpNumber = parseInt(navLink.dataset.warp);
-      selectWarp(warpNumber);
+      if (navLink.dataset.beyond) {
+        showBeyondOverview();
+      } else {
+        const warpNumber = parseInt(navLink.dataset.warp);
+        selectWarp(warpNumber);
+      }
     }
   });
   
@@ -422,5 +619,5 @@ initEventListeners();
 
 // Export for potential module usage (optional)
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { warpData, AppState, selectWarp, showOverview };
+  module.exports = { warpData, beyondWarpData, AppState, selectWarp, showOverview, showBeyondOverview, selectBeyond };
 }
